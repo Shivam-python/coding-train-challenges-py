@@ -6,7 +6,8 @@ from starfield_simulation.constants import (
     Z_DISTANCE,
     WIDTH,
     HEIGHT,
-    COLORS
+    COLORS,
+    CENTER
 )
 
 class Star:
@@ -29,6 +30,10 @@ class Star:
 
         # rotate xy
         self.position_3d.xy = self.position_3d.xy.rotate(0.2)
+
+        # update position on mouse movement
+        mouse_pos = CENTER - vec2(pygame.mouse.get_pos())
+        self.screen_pos += mouse_pos
 
     def get_3d_position(self):
         scale_pos = 35
