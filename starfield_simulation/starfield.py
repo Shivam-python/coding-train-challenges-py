@@ -7,8 +7,10 @@ from starfield_simulation.constants import (
     WIDTH,
     HEIGHT,
     COLORS,
-    CENTER
+    CENTER,
+    ALPHA
 )
+
 
 class Star:
     """
@@ -18,7 +20,7 @@ class Star:
         self.screen = screen
         self.position_3d = self.get_3d_position()
         self.screen_pos = vec2(0, 0)
-        self.velocity = uniform(0.05, 0.25)
+        self.velocity = uniform(0.45, 0.95)
         self.color = random.choice(COLORS)
         self.size = 10
 
@@ -35,10 +37,13 @@ class Star:
         mouse_pos = CENTER - vec2(pygame.mouse.get_pos())
         self.screen_pos += mouse_pos
 
-    def get_3d_position(self):
+    @staticmethod
+    def get_3d_position():
         scale_pos = 35
         angle = random.uniform(0, 2 * math.pi)
-        radius = random.randrange(HEIGHT // scale_pos, WIDTH) * scale_pos
+
+        # limiting radius of stars to get tunnel effect
+        radius = random.randrange(HEIGHT // 4, HEIGHT // 3) * scale_pos
         x = radius * math.cos(angle)
         y = radius * math.sin(angle)
         return vec3(x, y, Z_DISTANCE)
@@ -49,7 +54,7 @@ class Star:
             pygame.draw.circle(self.screen, self.color,
                                (int(self.screen_pos.x),
                                 int(self.screen_pos.y)),
-                               self.size)
+                               self.size//2)
 
 
 # defining vectors
@@ -63,24 +68,29 @@ RES = WIDTH,HEIGHT
 center = vec2(WIDTH//2, HEIGHT//2)
 app_screen = pygame.display.set_mode(RES)
 
+# alpha surface
+alpha_surface = pygame.Surface(RES)
+alpha_surface.set_alpha(ALPHA)
+
 # Creating a list to store the stars
-stars = [Star(app_screen) for _ in range(300)]
+stars = [Star(app_screen) for _ in range(1500)]
 
 # Game loop
 running = True
 clock = pygame.time.Clock()
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
+    app_screen.blit(alpha_surface, (0, 0))
     # Update and render the stars
     for star in stars:
         star.update()
         star.show()
     clock.tick(60)
     pygame.display.update()
-    app_screen.fill([0, 0, 0])
 
 # Quit Pygame
 pygame.quit()
