@@ -2,14 +2,7 @@ import random
 import pygame
 import math
 from random import uniform
-from starfield_simulation.constants import (
-    Z_DISTANCE,
-    WIDTH,
-    HEIGHT,
-    COLORS,
-    CENTER,
-    ALPHA
-)
+from starfield_simulation.constants import *
 
 
 class Star:
@@ -20,9 +13,9 @@ class Star:
         self.screen = screen
         self.position_3d = self.get_3d_position()
         self.screen_pos = vec2(0, 0)
-        self.velocity = uniform(0.45, 0.95)
+        self.velocity = uniform(*VELOCITY_RANGE)
         self.color = random.choice(COLORS)
-        self.size = 10
+        self.size = DEFAULT_STAR_SIZE
 
     def update(self):
         self.position_3d.z -= self.velocity
@@ -73,7 +66,7 @@ alpha_surface = pygame.Surface(RES)
 alpha_surface.set_alpha(ALPHA)
 
 # Creating a list to store the stars
-stars = [Star(app_screen) for _ in range(1500)]
+stars = [Star(app_screen) for _ in range(NUM_STARS)]
 
 # Game loop
 running = True
@@ -85,11 +78,12 @@ while running:
             running = False
 
     app_screen.blit(alpha_surface, (0, 0))
+
     # Update and render the stars
     for star in stars:
         star.update()
         star.show()
-    clock.tick(60)
+    clock.tick(CLOCK_TICK_DURATION)
     pygame.display.update()
 
 # Quit Pygame
