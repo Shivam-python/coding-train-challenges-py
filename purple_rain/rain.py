@@ -1,6 +1,6 @@
 import random
 import pygame
-from purple_rain.constants import (
+from constants import (
     RAIN_COLOR,
     BACKGROUND,
     SCREEN_SIZE,

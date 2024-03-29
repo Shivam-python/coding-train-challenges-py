@@ -1,21 +1,13 @@
 import pygame
-import sys
 import random
+from constants import *
 
 # Initialize Pygame
 pygame.init()
 
 # Set screen dimensions
-WIDTH, HEIGHT = 800, 650
-STARS_MAX_HEIGHT = 550
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Christmas Trees")
-
-# Define colors
-GREEN = (34, 139, 34)
-BROWN = (139, 69, 19)
-YELLOW = (255, 255, 0)
-WHITE = (255, 255, 255)
 
 
 # Function to draw a single Christmas tree

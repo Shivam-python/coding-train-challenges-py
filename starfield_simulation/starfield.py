@@ -2,7 +2,7 @@ import random
 import pygame
 import math
 from random import uniform
-from starfield_simulation.constants import *
+from constants import *
 
 
 class Star:
